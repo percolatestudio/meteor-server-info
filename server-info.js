@@ -14,24 +14,10 @@ ServerInfo = {
   }
 }
 
-var connectHandlers
-  , connect;
-
-// XXX: crappy stuff to work with both 0.6.4 and 0.6.5
-if (typeof __meteor_bootstrap__.app !== 'undefined') {
-  connectHandlers = __meteor_bootstrap__.app;
-} else {
-  connectHandlers = WebApp.connectHandlers;
-}
-
 if(typeof(Fiber)=="undefined") Fiber = Npm.require('fibers');
 
-if (typeof(Npm) == "undefined") {
-  connect = __meteor_bootstrap__.require("connect");
-} else {
-  connect = Npm.require("connect");
-}
-
+var connectHandlers = WebApp.connectHandlers;
+var connect = Npm.require("connect");
 var child_process = Npm.require('child_process');
 var Future = Npm.require('fibers/future');
 
@@ -91,7 +77,6 @@ function getConnectionCounts() {
   var results = {
     nSockets: 0,
     nSocketsWithLivedataSessions: 0,
-    nLivedataSessions: 0,
     nSubs: {},
     nDocuments: {},
     nLiveResultsSets: 0,
@@ -127,7 +112,7 @@ function getConnectionCounts() {
   });
   
   // check out the LRSes
-  _.each(Meteor._RemoteCollectionDriver.mongo._liveResultsSets, function(resultSet, key) {
+  _.each(MongoInternals.defaultRemoteCollectionDriver().mongo._liveResultsSets, function(resultSet, key) {
     results.nLiveResultsSets += 1;
     results.nObserveHandles += _.values(resultSet._observeHandles).length;
     
