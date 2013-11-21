@@ -2,14 +2,15 @@ ServerInfo = {
   settings: {
     path: '/info',
     user: 'insecure',
-    password: 'secureme'
+    password: 'secureme',
+    extras: undefined //a function or any other data to add
   },
 
   get: function() {
     return {
       ec2: getEc2Metadata(),
-      commit: getCommit(),
-      counts: getConnectionCounts()
+      counts: getConnectionCounts(),
+      extras: getExtras()
     };
   }
 }
@@ -60,11 +61,21 @@ function getEc2Metadata() {
   return ec2;
 }
 
-// XXX: refactor this out to be generic
+// XXX: move this code to settings somewhere
 // returns the commit hash of it exists in settings.public or nothing.
-function getCommit() {
-  if (Meteor.settings.public)
-    return Meteor.settings.public.commit;
+// ServerInfo.settings.extras = function() {
+//   if (Meteor.settings.public)
+//     return {commit: Meteor.settings.public.commit};
+// }
+
+// return extra info
+function getExtras() {
+  if (ServerInfo.settings.extras) {
+    if (typeof ServerInfo.settings.extras === 'function')
+      return ServerInfo.settings.extras.call();
+    else
+      return ServerInfo.settings.extras;
+  }
 }
 
 // get a count of the current # of connections and each named sub
