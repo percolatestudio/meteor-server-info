@@ -24,14 +24,9 @@ var Future = Npm.require('fibers/future');
 connectHandlers
   .use(connect.query())
   .use(connect.bodyParser())
-  .use(connect.basicAuth(function(user, password){
-    return ServerInfo.settings.user === user 
-      && ServerInfo.settings.password == password;
-  }))
-  .use(function(req, res, next) {
-    if (req.url !== ServerInfo.settings.path)
-      return next();
-
+  .use(ServerInfo.settings.path, 
+    connect.basicAuth(ServerInfo.settings.user, ServerInfo.settings.password))
+  .use(ServerInfo.settings.path, function(req, res, next) {
     Fiber(function () {
       res.setHeader('content-type', 'application/json');
       return res.end(JSON.stringify(ServerInfo.get()));
