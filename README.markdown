@@ -14,6 +14,7 @@ You can set the path and http basic authentication credentials like
 ServerInfo.settings = {
   path: '/info',
   user: 'insecure',
-  password: 'secureme'
+  password: 'secureme',
+  extras: undefined //a function or any other data to add
 };
 ```
