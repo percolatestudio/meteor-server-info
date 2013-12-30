@@ -7,4 +7,6 @@ Npm.depends({connect: "2.9.0"});
 Package.on_use(function (api, where) {
   api.use(['webapp'], 'server');
   api.add_files('server-info.js', 'server');
+  if (api.export)
+    api.export('ServerInfo', 'server');
 });
