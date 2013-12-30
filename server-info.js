@@ -22,17 +22,20 @@ var connect = Npm.require("connect");
 var child_process = Npm.require('child_process');
 var Future = Npm.require('fibers/future');
 
-connectHandlers
-  .use(connect.query())
-  .use(connect.bodyParser())
-  .use(ServerInfo.settings.path, 
-    connect.basicAuth(ServerInfo.settings.user, ServerInfo.settings.password))
-  .use(ServerInfo.settings.path, function(req, res, next) {
-    Fiber(function () {
-      res.setHeader('content-type', 'application/json');
-      return res.end(JSON.stringify(ServerInfo.get()));
-    }).run();
-});
+// allow the user to configure the package
+Meteor.startup(function() {
+  connectHandlers
+    .use(connect.query())
+    .use(connect.bodyParser())
+    .use(ServerInfo.settings.path, 
+      connect.basicAuth(ServerInfo.settings.user, ServerInfo.settings.password))
+    .use(ServerInfo.settings.path, function(req, res, next) {
+      Fiber(function () {
+        res.setHeader('content-type', 'application/json');
+        return res.end(JSON.stringify(ServerInfo.get()));
+      }).run();
+  });
+})
 
 // returns the parsed result of running the ec2metadata command or nothing if
 // the command fails
