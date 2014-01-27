@@ -8,5 +8,6 @@ Package.on_use(function (api, where) {
   api.use(['webapp'], 'server');
   api.add_files('server-info.js', 'server');
 
-  api.export('ServerInfo', 'server');
+  if (api.export)
+    api.export('ServerInfo', 'server');
 });
