@@ -5,7 +5,7 @@ Package.describe({
 Npm.depends({connect: "2.9.0"});
 
 Package.on_use(function (api, where) {
-  api.use(['webapp'], 'server');
+  api.use(['webapp', 'mongo-livedata'], 'server');
   api.add_files('server-info.js', 'server');
 
   if (api.export)

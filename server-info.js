@@ -90,7 +90,10 @@ function getConnectionCounts() {
     nDocuments: {},
     nLiveResultsSets: 0,
     nObserveHandles: 0,
-    nCollectionsWithLRSes: {},
+    oplogObserveHandlesCount: 0,
+    pollingObserveHandlesCount: 0,
+    oplogObserveHandles: {},
+    pollingObserveHandles: {}
   };
   
   var initKey = function(part, key) {
@@ -120,16 +123,28 @@ function getConnectionCounts() {
     });
   });
   
-  // check out the LRSes
-  _.each(MongoInternals.defaultRemoteCollectionDriver().mongo._liveResultsSets, function(resultSet, key) {
-    results.nLiveResultsSets += 1;
-    results.nObserveHandles += _.values(resultSet._observeHandles).length;
-    
-    var collectionName = resultSet._cursorDescription.collectionName;
-    initKey(results.nCollectionsWithLRSes, collectionName)
-    results.nCollectionsWithLRSes[collectionName] += 1;
+  _.each(MongoInternals.defaultRemoteCollectionDriver().mongo._observeMultiplexers, function(muxer) {
+    _.each(muxer._handles, function(handle) {
+      results.nObserveHandles += 1;
+      
+      var logStat = function(type, collectionName) {
+        results[type + 'Count'] += 1;
+        results[type][collectionName] = results[type][collectionName] || 0
+        results[type][collectionName] += 1;
+      }
+      
+      // XXX: I think this will have to change again for 0.7.1
+      if (! handle._observeDriver)
+        return;
+      
+      var collectionName = handle._observeDriver._cursorDescription.collectionName;
+      if (handle._observeDriver._usesOplog)
+        logStat('oplogObserveHandles', collectionName);
+      else
+        logStat('pollingObserveHandles', collectionName);
+      
+    });
   });
-  
   
   return results;
 }
