@@ -3,8 +3,8 @@
   "description": "Package for querying a meteor app for diagnostics information.",
   "git": "https://github.com/percolatestudio/meteor-server-info.git",
   "homepage": "https://github.com/percolatestudio/meteor-server-info.git",
-  "author": "Zoltan Olah (http://percolatestudio.com)",
-  "version": "0.6.0",
+  "author": "Zoltan Olah (http://percolatestudio.com), Tom Coleman (http://percolatestudio.com)",
+  "version": "0.6.1",
   "packages": {
   }
 }
