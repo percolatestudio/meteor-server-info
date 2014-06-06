@@ -93,7 +93,8 @@ function getConnectionCounts() {
     oplogObserveHandlesCount: 0,
     pollingObserveHandlesCount: 0,
     oplogObserveHandles: {},
-    pollingObserveHandles: {}
+    pollingObserveHandles: {},
+    usersWithNSubscriptions: {}
   };
   
   var initKey = function(part, key) {
@@ -111,6 +112,9 @@ function getConnectionCounts() {
   // check out the sessions
   _.each(Meteor.default_server.sessions, function(session, id) {
     results.nSessions += 1;
+    var subCount = _.keys(session._namedSubs).length;
+    results.usersWithNSubscriptions[subCount] = results.usersWithNSubscriptions[subCount] || 0;
+    results.usersWithNSubscriptions[subCount] += 1;
     
     _.each(session._namedSubs, function(info) {
       initKey(results.nSubs, info._name)
