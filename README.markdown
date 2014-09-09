@@ -73,9 +73,9 @@ $ mrt add server-info
 
 ## Usage
 
-Install the package, then access /info on your running application. By default, the route is protected by a username/password combinbation of insecure:secure-me that you should promptly change.
+Install the package, then access /info on your running application. By default, the route is protected by a username/password combinbation of insecure:secureme that you should promptly change.
 
-From the command line, you could run `curl http://insecure:secure-me@localhost:3000/info`.
+From the command line, you could run `curl http://insecure:secureme@localhost:3000/info`.
 
 ## Configuration
 
