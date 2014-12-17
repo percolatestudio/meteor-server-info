@@ -1,4 +1,4 @@
-# Meteor Server Info
+# percolate:server-info
 
 [Meteor](http://meteor.com) package for querying a meteor app for diagnostics information.
 
