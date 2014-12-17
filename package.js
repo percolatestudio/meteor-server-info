@@ -1,6 +1,6 @@
 Package.describe({
   summary: "Returns diagnostics info on server internals via a connect route.",
-  version: "0.1.0",
+  version: "0.2.0",
   name: "percolate:server-info",
   git: "https://github.com/percolatestudio/meteor-server-info"
 });
