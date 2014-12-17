@@ -8,7 +8,7 @@ This is really useful for querying your application state from an external sourc
 
 Some example output:
 
-```
+``` js
 {
     "extras": {
       "commit": "fb5954a395612c260d78d4a44df7bee12131c5ef"
@@ -68,7 +68,7 @@ Some example output:
 Meteor ServerInfo can be installed with [Meteorite](https://github.com/oortcloud/meteorite/). From inside a Meteorite-managed app:
 
 ``` sh
-$ mrt add server-info
+$ meteor add percolate:server-info
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ From the command line, you could run `curl http://insecure:secureme@localhost:30
 
 You can set the path and http basic authentication credentials like
 
-```
+``` js
 ServerInfo.settings = {
   path: '/info',
   user: 'insecure',
