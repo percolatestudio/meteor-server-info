@@ -9,7 +9,7 @@ Npm.depends({connect: "2.9.0"});
 
 Package.on_use(function (api, where) {
   api.versionsFrom('METEOR@1.0.1');
-  api.use(['webapp', 'mongo-livedata'], 'server');
+  api.use(['webapp', 'mongo-livedata', 'facts'], 'server');
   api.add_files('server-info.js', 'server');
 
   if (api.export)

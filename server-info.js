@@ -93,7 +93,8 @@ function getConnectionCounts() {
     oplogObserveHandlesCount: 0,
     pollingObserveHandlesCount: 0,
     oplogObserveHandles: {},
-    pollingObserveHandles: {}
+    pollingObserveHandles: {},
+    usersWithNSubscriptions: {}
   };
   
   var initKey = function(part, key) {
@@ -111,6 +112,9 @@ function getConnectionCounts() {
   // check out the sessions
   _.each(Meteor.default_server.sessions, function(session, id) {
     results.nSessions += 1;
+    var subCount = _.keys(session._namedSubs).length;
+    results.usersWithNSubscriptions[subCount] = results.usersWithNSubscriptions[subCount] || 0;
+    results.usersWithNSubscriptions[subCount] += 1;
     
     _.each(session._namedSubs, function(info) {
       initKey(results.nSubs, info._name)
@@ -133,18 +137,22 @@ function getConnectionCounts() {
         results[type][collectionName] += 1;
       }
       
-      // XXX: I think this will have to change again for 0.7.1
-      if (! handle._observeDriver)
-        return;
-      
-      var collectionName = handle._observeDriver._cursorDescription.collectionName;
-      if (handle._observeDriver._usesOplog)
+      var driver = handle._observeDriver || muxer._observeDriver;
+      var collectionName = driver._cursorDescription.collectionName;
+      if (driver._usesOplog)
         logStat('oplogObserveHandles', collectionName);
       else
         logStat('pollingObserveHandles', collectionName);
-      
     });
   });
+  
+  // walk facts
+  if (Facts._factsByPackage) {
+    results.facts = {};
+    _.each(Facts._factsByPackage, function(facts, pkg) {
+      results.facts[pkg] = facts;
+    });
+  }
   
   return results;
 }
