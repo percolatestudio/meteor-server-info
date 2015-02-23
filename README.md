@@ -1,12 +1,14 @@
 # percolate:server-info
 
+## Description
+
 [Meteor](http://meteor.com) package for querying a meteor app for diagnostics information.
 
 The package sets up a route (By default at /info) that returns a json object containing useful debugging about your running Meteor app.
 
 This is really useful for querying your application state from an external source, such as shell scripts that may forward the data to cloudwatch or other logs.
 
-Some example output:
+## Example output
 
 ``` js
 {
