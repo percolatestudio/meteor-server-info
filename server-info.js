@@ -92,7 +92,8 @@ function getConnectionCounts() {
     pollingObserveHandlesCount: 0,
     oplogObserveHandles: {},
     pollingObserveHandles: {},
-    usersWithNSubscriptions: {}
+    usersWithNSubscriptions: {},
+    nSessions: 0,
   };
   
   var initKey = function(part, key) {
