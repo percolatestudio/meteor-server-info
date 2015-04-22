@@ -96,4 +96,4 @@ ServerInfo.settings = {
 
 ## License 
 
-MIT. (c) Percolate Studio
+MIT. (c) Percolate Studio, maintained by Zoltan Olah (@zol).
